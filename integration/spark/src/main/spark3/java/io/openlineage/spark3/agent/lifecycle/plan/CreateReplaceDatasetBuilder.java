@@ -9,6 +9,7 @@ import io.openlineage.spark.agent.util.ScalaConversionUtils;
 import io.openlineage.spark.api.AbstractQueryPlanOutputDatasetBuilder;
 import io.openlineage.spark.api.OpenLineageContext;
 import io.openlineage.spark3.agent.lifecycle.plan.catalog.CatalogUtils3;
+import io.openlineage.spark3.agent.utils.ColumnLevelLineageUtils;
 import io.openlineage.spark3.agent.utils.PlanUtils3;
 import java.util.Collections;
 import java.util.List;
@@ -101,6 +102,9 @@ public class CreateReplaceDatasetBuilder
             .lifecycleStateChange(
                 openLineage.newLifecycleStateChangeDatasetFacet(lifecycleStateChange, null))
             .dataSource(PlanUtils.datasourceFacet(openLineage, di.get().getNamespace()));
+
+    // FIXME: temporary column level location
+    ColumnLevelLineageUtils.includeColumnLevelLineage(schema, x);
 
     Optional<String> datasetVersion =
         CatalogUtils3.getDatasetVersion(tableCatalog, identifier, tableProperties);
