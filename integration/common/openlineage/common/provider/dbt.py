@@ -32,6 +32,7 @@ class Adapter(Enum):
     SNOWFLAKE = 'snowflake'
     REDSHIFT = 'redshift'
     SPARK = 'spark'
+    DUCKDB = 'duckdb'
 
     @staticmethod
     def adapters() -> str:
@@ -669,6 +670,8 @@ class DbtArtifactProcessor:
             return "bigquery"
         elif self.adapter_type == Adapter.REDSHIFT:
             return f"redshift://{profile['host']}:{profile['port']}"
+        elif self.adapter_type == Adapter.DUCKDB:
+            return "duckdb"
         elif self.adapter_type == Adapter.SPARK:
             port = ""
 
